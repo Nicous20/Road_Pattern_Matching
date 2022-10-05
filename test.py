@@ -1,21 +1,12 @@
-import argparse
+import numpy as np
+import cv2 as cv
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+img_file = "pre.jpg"
+img_show = cv.imread(img_file).astype(np.float32)
+img = cv.cvtColor(img_show, cv.COLOR_BGR2GRAY)
+img = img.astype(np.uint8)
+ret, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+cv.imshow("img", img)
 
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('integers', metavar='N', type=int, nargs='+',
-                        help='an integer for the accumulator')
-
-    parser.add_argument('--sum', dest='accumulate', action='store_const',
-                        const=sum, default=max,
-                        help='sum the integers (default: find the max)')
-
-    parser.add_argument("-o", "--output", metavar="DIR", help="write weights to DIR")
-
-    args = parser.parse_args()
-
-    print(args)  # Namespace(output='nihao')
-    print(type(args))  # <class 'argparse.Namespace'>
-
-    print(args.accumulate(args.integers))
+cv.waitKey(0)
+cv.destroyAllWindows()

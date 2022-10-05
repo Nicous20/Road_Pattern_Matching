@@ -5,22 +5,27 @@ import argparse
 
 def pattern_matching(img_file, temp_file, method):
     # Read image
-    img = cv.imread(img_file).astype(np.float32)
-    img_bi = img.copy()
-    H, W, C = img.shape
+    img_show = cv.imread(img_file).astype(np.float32)
+    img = cv.cvtColor(img_show, cv.COLOR_BGR2GRAY)
+    img = img.astype(np.uint8)
+    ret, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    H, W = img.shape
     mi = np.mean(img)
 
     # Read template image
-    temp = cv.imread(temp_file).astype(np.float32)
-    temp_bi = temp.copy()
-    Ht, Wt, Ct = temp.shape
+    temp_show = cv.imread(temp_file).astype(np.float32)
+    temp = cv.cvtColor(temp_show, cv.COLOR_BGR2GRAY)
+    temp = temp.astype(np.uint8)
+    ret, temp = cv.threshold(temp, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    Ht, Wt = temp.shape
     mt = np.mean(temp)
 
     # Template matching
     i, j = -1, -1
     v, _v = -1, -1
     if method == 'SSD' or method == 'SAD':
-        v, _v = H * W * C * 255 * 255, H * W * C * 255 * 255
+        v, _v = H * W * 255, H * W * 255
+
     for y in range(H - Ht):
         for x in range(W - Wt):
             if method == 'SSD':
@@ -44,10 +49,10 @@ def pattern_matching(img_file, temp_file, method):
                     i, j = x, y
 
     mat_translation = np.float32([[1, 0, i], [0, 1, j]])
-    dst = cv.warpAffine(temp, mat_translation, (i + Wt, j + Ht), borderValue=(255, 255, 255))
+    dst = cv.warpAffine(temp_show, mat_translation, (i + Wt, j + Ht), borderValue=(255, 255, 255))
     dst = dst.astype(np.uint8)
 
-    result = img.copy()
+    result = img_show.copy()
     result = result.astype(np.uint8)
     for x in range(i, i + Wt):
         for y in range(j, j + Ht):
@@ -67,4 +72,4 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--method', type=str, required=True, metavar='', help='Method : [SSD][NCC][SAD][ZNCC]')
     args = parser.parse_args()
     pattern_matching(args.img_file, args.temp_file, args.method)
-    # pattern_matching("post_2.jpg", "pre_2.jpg", "ZNGG")
+    # pattern_matching("post_2.jpg", "pre_2.jpg", "ZNCC")
