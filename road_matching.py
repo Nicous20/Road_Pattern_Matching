@@ -8,7 +8,7 @@ def pattern_matching(img_file, temp_file, method):
     img_show = cv.imread(img_file).astype(np.float32)
     img = cv.cvtColor(img_show, cv.COLOR_BGR2GRAY)
     img = img.astype(np.uint8)
-    ret, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    ret, img = cv.threshold(img, 0, 1, cv.THRESH_BINARY + cv.THRESH_OTSU)
     H, W = img.shape
     mi = np.mean(img)
 
@@ -16,7 +16,7 @@ def pattern_matching(img_file, temp_file, method):
     temp_show = cv.imread(temp_file).astype(np.float32)
     temp = cv.cvtColor(temp_show, cv.COLOR_BGR2GRAY)
     temp = temp.astype(np.uint8)
-    ret, temp = cv.threshold(temp, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    ret, temp = cv.threshold(temp, 0, 1, cv.THRESH_BINARY + cv.THRESH_OTSU)
     Ht, Wt = temp.shape
     mt = np.mean(temp)
 
@@ -59,7 +59,7 @@ def pattern_matching(img_file, temp_file, method):
             if list(dst[y][x]) != [255, 255, 255]:
                 result[y][x] = dst[y][x]
 
-    cv.imwrite("result.jpg", result)
+    cv.imwrite("./data/result.jpg", result)
     cv.imshow("result", result)
     cv.waitKey(0)
     cv.destroyAllWindows()
@@ -72,4 +72,4 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--method', type=str, required=True, metavar='', help='Method : [SSD][NCC][SAD][ZNCC]')
     args = parser.parse_args()
     pattern_matching(args.img_file, args.temp_file, args.method)
-    # pattern_matching("post_2.jpg", "pre_2.jpg", "ZNCC")
+    # pattern_matching("post_3.png", "pre_3.png", "ZNCC")
