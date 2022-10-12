@@ -8,7 +8,7 @@ def pattern_matching(img_file, temp_file, method):
     img_show = cv.imread(img_file).astype(np.float32)
     img = cv.cvtColor(img_show, cv.COLOR_BGR2GRAY)
     img = img.astype(np.uint8)
-    ret, img = cv.threshold(img, 0, 1, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    ret, img = cv.threshold(img, 1, 0, cv.THRESH_BINARY + cv.THRESH_OTSU)
     H, W = img.shape
     mi = np.mean(img)
 
@@ -16,7 +16,7 @@ def pattern_matching(img_file, temp_file, method):
     temp_show = cv.imread(temp_file).astype(np.float32)
     temp = cv.cvtColor(temp_show, cv.COLOR_BGR2GRAY)
     temp = temp.astype(np.uint8)
-    ret, temp = cv.threshold(temp, 0, 1, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    ret, temp = cv.threshold(temp, 1, 0, cv.THRESH_BINARY + cv.THRESH_OTSU)
     Ht, Wt = temp.shape
     mt = np.mean(temp)
 
