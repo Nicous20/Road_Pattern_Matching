@@ -7,6 +7,7 @@ def pattern_matching(img_file, temp_file, method):
     # Read image
     img = cv.imread(img_file).astype(np.float32)
     img_bi = img.copy()
+    img_bi =copy
     H, W, C = img.shape
     mi = np.mean(img)
 
@@ -61,10 +62,10 @@ def pattern_matching(img_file, temp_file, method):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Pattern Matching')
-    parser.add_argument('-i', '--img_file', type=str, required=True, metavar='', help='Img File Name')
-    parser.add_argument('-t', '--temp_file', type=str, required=True, metavar='', help='Template File Name')
-    parser.add_argument('-m', '--method', type=str, required=True, metavar='', help='Method : [SSD][NCC][SAD][ZNCC]')
-    args = parser.parse_args()
-    pattern_matching(args.img_file, args.temp_file, args.method)
-    # pattern_matching("post_2.jpg", "pre_2.jpg", "ZNGG")
+    # parser = argparse.ArgumentParser(description='Pattern Matching')
+    # parser.add_argument('-i', '--img_file', type=str, required=True, metavar='', help='Img File Name')
+    # parser.add_argument('-t', '--temp_file', type=str, required=True, metavar='', help='Template File Name')
+    # parser.add_argument('-m', '--method', type=str, required=True, metavar='', help='Method to Method: [SSD][NCC][SAD][ZNCC]')
+    # args = parser.parse_args()
+    # pattern_matching(args.img_file, args.temp_file, args.method)
+    pattern_matching("post_2.jpg", "pre_2.jpg", "ZNGG")
